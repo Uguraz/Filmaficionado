@@ -50,18 +50,15 @@ public class MovieController {
 
 
 
+    //Sørger for at vores listviews bliver opdateret med vores objekter når vi starter programmet
     @FXML
     public void initialize() {
         refreshMovieLV();
         refreshCategoryLV();
         tilføjUnønsket();
-
-
-
-
     }
 
-    // UPLOADS MOVIES TO MOVIE LISTVIEW FROM START OF PROGRAM
+    //Opdaterer vores listview for film
     private void refreshMovieLV() {
         filmLV.getItems().clear();
         System.out.println(MovieDao.getAllMovies());
@@ -71,7 +68,7 @@ public class MovieController {
         }
     }
 
-    // UPLOADS CATEGORIES TO CATEGORY LISTVIEW FROM START OF PROGRAM
+    //Opdaterer vores listview for kategorier
    private void refreshCategoryLV() {
        catLV.getItems().clear();
        System.out.println(CategoryDao.getAllCategories());
@@ -81,6 +78,7 @@ public class MovieController {
        }
    }
 
+    //Gør så vi kan se film der er i kategorier når vi klikker på en kategori
     public void showMovies(javafx.scene.input.MouseEvent mouseEvent) {
         System.out.println("fcLV mouse event works");
         fcLV.getItems().clear();
@@ -91,6 +89,7 @@ public class MovieController {
         }
     }
 
+    //Gør så vi kan søge på en film efter navn
         @FXML
         void SøgMovie(ActionEvent event) {
         filmLV.getItems().clear();
@@ -101,8 +100,7 @@ public class MovieController {
         }
     }
 
-
-
+    //Sørger for vi kan slette en kategori og opdaterer databasen
     @FXML
     void fjernCat(ActionEvent event) {
         Dialog<ButtonType> dialog = new Dialog<>();
@@ -131,6 +129,7 @@ public class MovieController {
             }
     }
 
+    //Gør så vi kan fjerne en film fra en kategori og opdaterer databasen
     @FXML
     void fjernFC(ActionEvent event) {
         ObservableList<Integer> chosenIndex = fcLV.getSelectionModel().getSelectedIndices();
@@ -145,7 +144,7 @@ public class MovieController {
         }
     }
 
-
+    //Gør så vi kan fjerne en film og opdaterer databasen
     @FXML
     void fjernFilm(ActionEvent event) {
         Dialog<ButtonType> dialog = new Dialog<>();
@@ -174,6 +173,7 @@ public class MovieController {
             }
     }
 
+    //Gør så de film der ikke er set i 2 år eller har rating på mindre end 3 kommer ned i uønsketLV
     @FXML
     void tilføjUnønsket() {
         uønsketLV.getItems().clear();
@@ -184,7 +184,7 @@ public class MovieController {
         }
     }
 
-
+    //Gør så vi kan slette en film fra uønsket listen og opdaterer i database
     @FXML
     void fjernUønsket(ActionEvent event) {
         try {
@@ -205,6 +205,7 @@ public class MovieController {
         }
     }
 
+    //Gør så vi kan få fat i filelink til en film
     private String getSelectedFileLink() {
         ObservableList<Integer> chosenIndex1 = filmLV.getSelectionModel().getSelectedIndices();
         if (chosenIndex1.size() != 0) {
@@ -223,7 +224,7 @@ public class MovieController {
         return null;
     }
 
-
+    //Gør så vi kan få fat i et navn til film
     private String getSelectedName() {
         ObservableList<Integer> chosenIndex1 = filmLV.getSelectionModel().getSelectedIndices();
         if (chosenIndex1.size() != 0) {
@@ -242,6 +243,20 @@ public class MovieController {
         return null;
     }
 
+    //Gør så vi kan få fat i vores ID til film
+    private int getSelectedMovieId() {
+        ObservableList<Integer> chosenIndex1 = filmLV.getSelectionModel().getSelectedIndices();
+        if (chosenIndex1.size() != 0) {
+            for (Object index : chosenIndex1) {
+                Movie m = (Movie) filmLV.getItems().get((int) index);
+                return m.getMovieId();
+            }
+        }
+        return 0;
+
+    }
+
+    //Sorterer vores navne på film i en alfabetisk orden hvor vi starter fra a
     @FXML
     void navnAsc(ActionEvent event) {
         filmLV.getItems().clear();
@@ -251,6 +266,8 @@ public class MovieController {
             filmLV.getItems().add(movie);
         }
     }
+
+    //Sorterer vores navne på film i en alfabetisk orden hvor vi starter fra å
     @FXML
     void navnDesc(ActionEvent event) {
         filmLV.getItems().clear();
@@ -260,6 +277,8 @@ public class MovieController {
             filmLV.getItems().add(movie);
         }
     }
+
+    //Sorterer vores rating på film fra 1-10
     @FXML
     void ratingAsc(ActionEvent event) {
         filmLV.getItems().clear();
@@ -270,6 +289,7 @@ public class MovieController {
         }
     }
 
+    // Sorterer vores rating på film fra 10-1
     @FXML
     void ratingDesc(ActionEvent event) {
         filmLV.getItems().clear();
@@ -280,29 +300,33 @@ public class MovieController {
         }
     }
 
+    //Sætter vores media op så vi kan afspille med mediaplayer i vores mediaview og opdaterer diverse listviews
     @FXML
     void playKnap(ActionEvent event) throws IOException {
 
+
             film = new Media(String.valueOf(getClass().getResource(getSelectedFileLink())));
             mediaPlayer = new MediaPlayer(film);
-            mediaView = new MediaView(mediaPlayer);
             visFilm.setMediaPlayer(mediaPlayer);
             mediaPlayer.seek(mediaPlayer.getStartTime());
             Playing.setText(getSelectedName());
             afspiller = true;
             mediaPlayer.play();
+            MovieDao.opdaterDato(getSelectedMovieId());
+            tilføjUnønsket();
+            refreshMovieLV();
         }
 
-
+    //Sørger for vi kan stoppe med at afspille og lukker mediaplayeren
     @FXML
     void stopAfspil(ActionEvent event) throws IOException {
         if (afspiller)
             mediaPlayer.stop();
             afspiller = false;
+            mediaPlayer.dispose();
     }
 
-
-
+    //Sætter dialog op hvor vi kan oprette en kategori og gemmer i database
     @FXML
     void tilføjCat(ActionEvent event) throws IOException{
         Dialog<ButtonType> dialog = new Dialog<>();
@@ -327,6 +351,7 @@ public class MovieController {
         categoryTF.clear();
     }
 
+    //Tilføjer en film til en kategori og opdaterer i database
     @FXML
     void tilføjFC(ActionEvent event) {
         ObservableList<Integer> chosenIndex = filmLV.getSelectionModel().getSelectedIndices();
@@ -351,7 +376,7 @@ public class MovieController {
         else  System.out.println("Choose a Movie");
     }
 
-
+    //Tilføjer en film via dialog og opdaterer i database
     @FXML
     void tilføjFilm(ActionEvent event)  throws IOException {
         Dialog<ButtonType> dialog = new Dialog<>();

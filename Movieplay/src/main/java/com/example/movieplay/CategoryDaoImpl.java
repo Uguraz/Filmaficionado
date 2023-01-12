@@ -22,6 +22,7 @@ public class CategoryDaoImpl implements CategoryDao
         System.out.println("CategoryDaoImpl connected to the database... ");
     }
 
+    //Gemmer en kategori i vores database
     public void saveCategory(String Name) {
         try {
             PreparedStatement ps = con.prepareStatement("INSERT INTO CATEGORY VALUES(?);");
@@ -34,6 +35,7 @@ public class CategoryDaoImpl implements CategoryDao
         }
     }
 
+    //Sletter en kategori fra databasen
     public void deleteCategory(Category category) {
         try {
             PreparedStatement pr = con.prepareStatement("DELETE FROM CatMovie WHERE categoryId = ?;");
@@ -49,6 +51,7 @@ public class CategoryDaoImpl implements CategoryDao
         }
     }
 
+    //Sørger for at vi kan få alle vores kategorier op i listview
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList();
         try {

@@ -22,6 +22,7 @@ public class CatMovieDaoImpl implements CatMovieDao {
         System.out.println("CatMovieDaoImpl connected to the database... ");
     }
 
+    //Sørger for at vi kan tilføje en film til en kategori
     public void addCatMovie(int Favourite, int MovieId, int categoryId) {
         try {
             PreparedStatement ps = con.prepareStatement("INSERT INTO CATMOVIE VALUES(?,?,?);");
@@ -37,6 +38,7 @@ public class CatMovieDaoImpl implements CatMovieDao {
         }
     }
 
+    //Sørger for at vi kan slette en film fra en kategori
     public void deleteCatMovie(Movie movie) {
         try {
             PreparedStatement ps = con.prepareStatement("DELETE FROM CATMOVIE WHERE MovieId = ?;");
@@ -49,7 +51,7 @@ public class CatMovieDaoImpl implements CatMovieDao {
         }
     }
 
-
+    //Sørger for vi kan få alle vores film på en valgt kategori frem i listview
     @Override
     public List<Movie> getAllCatMovies(Category category) {
         List<Movie> CatMovie = new ArrayList<>();

@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface CategoryDao {
 
-    public void saveCategory(String Name);
-    public void deleteCategory(Category category);
+    public void saveCategory(String Name); //Tilføjer en ny kategori
+    public void deleteCategory(Category category); //Sletter en kategori
 
-    public List<Category> getAllCategories(); // Read all playlists
+    public List<Category> getAllCategories(); //Indlæser alle kategorier
 
     // TODO the other CRUD methods are placed here
 

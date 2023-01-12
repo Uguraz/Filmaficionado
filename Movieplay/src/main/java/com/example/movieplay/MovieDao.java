@@ -24,6 +24,6 @@ public interface MovieDao {
     public List<Movie> SorterRatingMovieAsc(); //Sorterer rating i vores database fra 1 til 10
 
     public List<Movie> SorterRatingMovieDesc(); // Sorterer rating i vores database fra 10 til 1
-    public List<Movie> SøgMovie(String movie);
+    public List<Movie> SøgMovie(String movie); //Man kan søge efter en film titel i søgefeltet
 }
 
