@@ -9,8 +9,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.control.Label;
-
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -42,8 +40,8 @@ public class MovieController {
     private boolean afspiller = false;
 
     private MediaPlayer mediaPlayer;
-    Media film;
-    private MediaView mediaView;
+    private Media film;
+
     private MovieDao MovieDao = new MovieDaoImpl();
     private CategoryDao CategoryDao = new CategoryDaoImpl();
     private CatMovieDao CatMovieDao = new CatMovieDaoImpl();
@@ -69,7 +67,7 @@ public class MovieController {
     }
 
     //Opdaterer vores listview for kategorier
-   private void refreshCategoryLV() {
+    private void refreshCategoryLV() {
        catLV.getItems().clear();
        System.out.println(CategoryDao.getAllCategories());
        List<Category> categories = CategoryDao.getAllCategories();
@@ -80,7 +78,6 @@ public class MovieController {
 
     //Gør så vi kan se film der er i kategorier når vi klikker på en kategori
     public void showMovies(javafx.scene.input.MouseEvent mouseEvent) {
-        System.out.println("fcLV mouse event works");
         fcLV.getItems().clear();
         Category category = (Category) catLV.getSelectionModel().getSelectedItem();
         List<Movie> Movies = CatMovieDao.getAllCatMovies(category);
@@ -90,8 +87,9 @@ public class MovieController {
     }
 
     //Gør så vi kan søge på en film efter navn
-        @FXML
-        void SøgMovie(ActionEvent event) {
+    @FXML
+    void SøgMovie(ActionEvent event) {
+
         filmLV.getItems().clear();
         System.out.println(MovieDao.SøgMovie(søgeFelt.getText()));
         List<Movie> movies = MovieDao.SøgMovie(søgeFelt.getText());
@@ -104,7 +102,7 @@ public class MovieController {
     @FXML
     void fjernCat(ActionEvent event) {
         Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("delete category");
+        dialog.setTitle("Delete category");
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
         Label confirm = new Label("Deleting category will not delete any movies");
         dialog.getDialogPane().setContent(confirm);
@@ -114,14 +112,14 @@ public class MovieController {
             try {
                 ObservableList<Integer> chosenIndex = catLV.getSelectionModel().getSelectedIndices();
                 if (chosenIndex.size() == 0)
-                    System.out.println("Choose a movie");
-                else
+                    System.out.println("Deleted");
                     for (Object index : chosenIndex) {
-                        System.out.println("You chose " + catLV.getSelectionModel().getSelectedItem());
                         Category c = (Category) catLV.getItems().get((int) index);
                         catLV.getItems().remove(catLV.getSelectionModel().getSelectedItem());
 
                         CategoryDao.deleteCategory(c);
+                        refreshCategoryLV();
+
                     }
 
             } catch (Exception e) {
@@ -161,11 +159,11 @@ public class MovieController {
                     System.out.println("Choose a movie");
                 else
                     for (Object index : chosenIndex) {
-                        System.out.println("You chose " + filmLV.getSelectionModel().getSelectedItem());
                         Movie m = (Movie) filmLV.getItems().get((int) index);
                         filmLV.getItems().remove(filmLV.getSelectionModel().getSelectedItem());
 
                         MovieDao.deleteMovie(m);
+                        refreshMovieLV();
                     }
 
             } catch (Exception e) {
@@ -193,7 +191,6 @@ public class MovieController {
                 System.out.println("Choose a movie");
             else
                 for (Object index : chosenIndex) {
-                    System.out.println("You chose " + uønsketLV.getSelectionModel().getSelectedItem());
                     Movie m = (Movie) uønsketLV.getItems().get((int) index);
                     uønsketLV.getItems().remove(uønsketLV.getSelectionModel().getSelectedItem());
 
@@ -253,8 +250,38 @@ public class MovieController {
             }
         }
         return 0;
-
     }
+
+    //Redigerer en rating for en film
+    @FXML
+    void RedRating(ActionEvent event) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+
+        dialog.setTitle("Rediger rating dialog");
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        TextField RatingTF = new TextField();
+
+
+        Label RatingLabel = new Label();
+        RatingLabel.setText("Enter Rating:");
+
+
+        VBox box = new VBox(RatingLabel, RatingTF);
+        dialog.getDialogPane().setContent(box);
+
+
+        Movie selectedMovie = filmLV.getSelectionModel().getSelectedItem();
+        RatingTF.setText(selectedMovie.getRating().toString());
+
+        Optional<ButtonType> ok = dialog.showAndWait();
+        if (ok.get() == ButtonType.OK)
+        MovieDao.redigerMovie(getSelectedMovieId(), RatingTF.getText());
+        refreshMovieLV();
+        tilføjUnønsket();
+
+        RatingTF.clear();
+    }
+
 
     //Sorterer vores navne på film i en alfabetisk orden hvor vi starter fra a
     @FXML
@@ -331,8 +358,7 @@ public class MovieController {
     void tilføjCat(ActionEvent event) throws IOException{
         Dialog<ButtonType> dialog = new Dialog<>();
 
-        dialog.setTitle("new category dialog");
-        dialog.setHeaderText("New Category");
+        dialog.setTitle("New category dialog");
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
         TextField categoryTF = new TextField();
         Label nameLabel = new Label();
@@ -342,8 +368,6 @@ public class MovieController {
 
         Optional<ButtonType> ok = dialog.showAndWait();
         if (ok.get() == ButtonType.OK)
-            System.out.println("Category name = " + categoryTF.getText());
-
 
         CategoryDao.saveCategory(categoryTF.getText());
         refreshCategoryLV();
@@ -361,7 +385,6 @@ public class MovieController {
                 System.out.println("Choose a category");
             else
                 for (Object index : chosenIndex) {
-                    System.out.println("You chose " + filmLV.getSelectionModel().getSelectedItem());
                     Movie m = (Movie) filmLV.getItems().get((int) index);
                     Category category = (Category) catLV.getSelectionModel().getSelectedItem();
                     CatMovieDao.addCatMovie(0, m.getMovieId(), category.getCategoryId());
@@ -381,8 +404,7 @@ public class MovieController {
     void tilføjFilm(ActionEvent event)  throws IOException {
         Dialog<ButtonType> dialog = new Dialog<>();
 
-        dialog.setTitle("new movie dialog");
-        dialog.setHeaderText("Add a new Movie");
+        dialog.setTitle("New movie dialog");
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
         TextField NameTF = new TextField();
         TextField RatingTF = new TextField();
@@ -402,15 +424,11 @@ public class MovieController {
         Label LastviewLabel = new Label();
         LastviewLabel.setText("Enter Lastview:");
 
-
-
         VBox box = new VBox(NameLabel, NameTF, RatingLabel, RatingTF, RatingIMDBLabel, RatingIMDBTF, FilelinkLabel, FilelinkTF, LastviewLabel, LastviewTF);
         dialog.getDialogPane().setContent(box);
 
         Optional<ButtonType> ok = dialog.showAndWait();
         if (ok.get() == ButtonType.OK)
-            System.out.println("Name = " + NameTF.getText() + " Rating = " + RatingTF.getText() + " RatingIMDB = "
-                    + RatingIMDBTF.getText() + " Filelink = " + FilelinkTF.getText() + " Lastview = " + LastviewTF.getText());
 
         MovieDao.saveMovie(NameTF.getText(), RatingTF.getText(), RatingIMDBTF.getText(), FilelinkTF.getText(), LastviewTF.getText());
         refreshMovieLV();

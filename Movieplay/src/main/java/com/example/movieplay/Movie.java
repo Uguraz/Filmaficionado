@@ -1,14 +1,14 @@
 package com.example.movieplay;
 
-import java.util.Date;
-
+    //Movie klassen gør at vi kan få oprettet vores film objekter.
+    //Indeholder samtidig informationer som vi kan hente om vores film.
 public class Movie {
-
+    //Movie attributter
     private int MovieId;
     private String Name;
-    private Double Rating;
+    private String Rating;
 
-    private Double RatingIMDB;
+    private String RatingIMDB;
     private String FileLink;
     private String Lastview;
 
@@ -17,7 +17,7 @@ public class Movie {
     public String toString() { return Name + "          " + Rating + "          " + RatingIMDB + "          " + FileLink + "          " + Lastview;}
 
     //Konstruktøren
-    public Movie(int MovieId, String Name, Double Rating, Double RatingIMDB, String Filelink, String Lastview) {
+    public Movie(int MovieId, String Name, String Rating, String RatingIMDB, String Filelink, String Lastview) {
         this.MovieId = MovieId;
         this.Name = Name;
         this.Rating = Rating;
@@ -33,10 +33,10 @@ public class Movie {
     public String getName() { return this.Name;
     }
     //Giver os rating til en film
-    public Double getRating() { return this.Rating;
+    public String getRating() { return this.Rating;
     }
     //Giver os IMDB rating til en film
-    public Double getRatingIMDB() { return this.RatingIMDB;
+    public String getRatingIMDB() { return this.RatingIMDB;
     }
     //Giver os filelinket til en film
     public String getFileLink() { return this.FileLink;

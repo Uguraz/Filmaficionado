@@ -1,15 +1,12 @@
 package com.example.movieplay;
 
-import com.example.movieplay.Movie;
-
-import java.sql.Date;
 import java.util.List;
 
 public interface MovieDao {
 
-    public void saveMovie(String Name, String Rating, String RatingIMDB, String Filelink, String Lastview); //Laver en film
+    public void saveMovie(String Name, String Rating, String RatingIMDB, String Filelink, String Lastview); //Laver en film i databasen
 
-    public List<Movie> getAllMovies(); // Indlæs film
+    public List<Movie> getAllMovies(); // Indlæs film fra databasen
 
     public void deleteMovie(Movie movie); //Sletter film fra database
 
@@ -24,6 +21,9 @@ public interface MovieDao {
     public List<Movie> SorterRatingMovieAsc(); //Sorterer rating i vores database fra 1 til 10
 
     public List<Movie> SorterRatingMovieDesc(); // Sorterer rating i vores database fra 10 til 1
+
     public List<Movie> SøgMovie(String movie); //Man kan søge efter en film titel i søgefeltet
+
+    public void redigerMovie(int MovieId, String Rating); // Sørger for vi kan redigerer en rating på en film
 }
 

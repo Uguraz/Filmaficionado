@@ -2,7 +2,6 @@ package com.example.movieplay;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -10,7 +9,7 @@ public class CatMovieDaoImpl implements CatMovieDao {
 
 
 
-    private Connection con; // CONNECTS TO DATABASE
+    private Connection con; //Skaber forbindelsen til databasen
 
     public CatMovieDaoImpl() {
         try {
@@ -57,16 +56,16 @@ public class CatMovieDaoImpl implements CatMovieDao {
         List<Movie> CatMovie = new ArrayList<>();
         try {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM Movie, Category, CatMovie WHERE " +
-                    "Category.categoryId = CatMovie.categoryId AND CatMovie.MovieId = Movie.MovieId AND " +
-                    "Category.categoryId = ?;");
+                    "Category.CategoryId = CatMovie.categoryId AND CatMovie.MovieId = Movie.MovieId AND " +
+                    "Category.CategoryId = ?;");
             ps.setInt(1, category.getCategoryId());
             ResultSet rs = ps.executeQuery();
             Movie movie;
             while (rs.next()) {
                 int MovieId = rs.getInt(1);
                 String Name = rs.getString(2);
-                Double Rating = rs.getDouble(3);
-                Double RatingIMDB = rs.getDouble(4);
+                String Rating = rs.getString(3);
+                String RatingIMDB = rs.getString(4);
                 String FileLink = rs.getString(5);
                 String Lastview = rs.getString(6);
 
@@ -76,7 +75,7 @@ public class CatMovieDaoImpl implements CatMovieDao {
             }
 
         } catch (SQLException e) {
-            System.err.println("cannot access records (SongDaoImpl)");
+            System.err.println("cannot access records (MovieDaoImpl)");
         }
         return CatMovie;
     }

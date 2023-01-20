@@ -1,8 +1,4 @@
 package com.example.movieplay;
-import com.example.movieplay.Movie;
-import com.example.movieplay.MovieDao;
-
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +6,7 @@ import java.util.List;
 public class MovieDaoImpl implements MovieDao {
 
 
-    private Connection con;  // CONNECTS TO DATABASE
+    private Connection con;  //Skaber forbindelsen til databasen
 
     public MovieDaoImpl() {
         try { con = DriverManager.getConnection("jdbc:sqlserver://LASSE:1433;databaseName=Filmaficionado;userName=sa;password=123456;encrypt=true;trustServerCertificate=true");
@@ -66,8 +62,8 @@ public class MovieDaoImpl implements MovieDao {
             while (rs.next()) {
                 int MovieId = rs.getInt(1);
                 String Name = rs.getString(2);
-                double Rating = rs.getDouble(3);
-                double RatingIMDB = rs.getDouble(4);
+                String Rating = rs.getString(3);
+                String RatingIMDB = rs.getString(4);
                 String Filelink = rs.getString(5);
                 String Lastview = rs.getString(6);
 
@@ -93,8 +89,8 @@ public class MovieDaoImpl implements MovieDao {
             while (rs.next()) {
                 int MovieId = rs.getInt(1);
                 String Name = rs.getString(2);
-                double Rating = rs.getDouble(3);
-                double RatingIMDB = rs.getDouble(4);
+                String Rating = rs.getString(3);
+                String RatingIMDB = rs.getString(4);
                 String Filelink = rs.getString(5);
                 String Lastview = rs.getString(6);
 
@@ -137,8 +133,8 @@ public class MovieDaoImpl implements MovieDao {
             while (rs.next()) {
                 int MovieId = rs.getInt(1);
                 String Name = rs.getString(2);
-                double Rating = rs.getDouble(3);
-                double RatingIMDB = rs.getDouble(4);
+                String Rating = rs.getString(3);
+                String RatingIMDB = rs.getString(4);
                 String Filelink = rs.getString(5);
                 String Lastview = rs.getString(6);
 
@@ -164,8 +160,8 @@ public class MovieDaoImpl implements MovieDao {
             while (rs.next()) {
                 int MovieId = rs.getInt(1);
                 String Name = rs.getString(2);
-                double Rating = rs.getDouble(3);
-                double RatingIMDB = rs.getDouble(4);
+                String Rating = rs.getString(3);
+                String RatingIMDB = rs.getString(4);
                 String Filelink = rs.getString(5);
                 String Lastview = rs.getString(6);
 
@@ -191,8 +187,8 @@ public class MovieDaoImpl implements MovieDao {
             while (rs.next()) {
                 int MovieId = rs.getInt(1);
                 String Name = rs.getString(2);
-                double Rating = rs.getDouble(3);
-                double RatingIMDB = rs.getDouble(4);
+                String Rating = rs.getString(3);
+                String RatingIMDB = rs.getString(4);
                 String Filelink = rs.getString(5);
                 String Lastview = rs.getString(6);
 
@@ -218,8 +214,8 @@ public class MovieDaoImpl implements MovieDao {
             while (rs.next()) {
                 int MovieId = rs.getInt(1);
                 String Name = rs.getString(2);
-                double Rating = rs.getDouble(3);
-                double RatingIMDB = rs.getDouble(4);
+                String Rating = rs.getString(3);
+                String RatingIMDB = rs.getString(4);
                 String Filelink = rs.getString(5);
                 String Lastview = rs.getString(6);
 
@@ -246,8 +242,8 @@ public class MovieDaoImpl implements MovieDao {
             while (rs.next()) {
                 int MovieId = rs.getInt(1);
                 String Name = rs.getString(2);
-                double Rating = rs.getDouble(3);
-                double RatingIMDB = rs.getDouble(4);
+                String Rating = rs.getString(3);
+                String RatingIMDB = rs.getString(4);
                 String Filelink = rs.getString(5);
                 String Lastview = rs.getString(6);
 
@@ -261,5 +257,19 @@ public class MovieDaoImpl implements MovieDao {
         }
         return movies;
     }
+    //Sørge for vi kan redigere en rating på en film
+    public void redigerMovie(int MovieId, String Rating) {
+        try {
+            PreparedStatement ps = con.prepareStatement("UPDATE Movie SET Rating = ? WHERE MovieId = ?;");
 
-}
+            ps.setDouble(1, Double.parseDouble(Rating));
+            ps.setInt(2, MovieId);
+
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            System.err.println("cannot insert record (redigerMovie)");
+        }
+    }
+    }

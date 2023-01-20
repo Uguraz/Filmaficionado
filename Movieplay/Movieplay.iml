@@ -8,8 +8,18 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="19" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="openjfx.javafx.media" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../mssql-jdbc-11.2.0.jre18.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:19-ea+7" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:19-ea+7" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:19-ea+7" level="project" />
@@ -24,15 +34,9 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.apiguardian:apiguardian-api:1.1.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.8.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-engine:1.8.2" level="project" />
-    <orderEntry type="library" name="openjfx.javafx.media" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../mssql-jdbc-11.2.0.jre18.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-web:17.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-web:win:17.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-media:17.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-media:win:17.0.2" level="project" />
   </component>
 </module>

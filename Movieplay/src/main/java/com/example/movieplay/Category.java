@@ -1,6 +1,9 @@
 package com.example.movieplay;
 
+//Category klassen gør at vi kan få oprettet vores kategori objekter.
+//Indeholder samtidig informationer som vi kan hente om vores kategorier.
 public class Category {
+    //Category attributer
     private int CategoryId;
     private String Name;
 

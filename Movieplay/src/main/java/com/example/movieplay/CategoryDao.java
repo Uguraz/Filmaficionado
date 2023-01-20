@@ -1,16 +1,14 @@
 package com.example.movieplay;
 
-import com.example.movieplay.Category;
 
 import java.util.List;
 
 public interface CategoryDao {
 
-    public void saveCategory(String Name); //Tilføjer en ny kategori
-    public void deleteCategory(Category category); //Sletter en kategori
+    public void saveCategory(String Name); //Tilføjer en ny kategori til databasen
+    public void deleteCategory(Category category); //Sletter en kategori fra databasen
 
-    public List<Category> getAllCategories(); //Indlæser alle kategorier
+    public List<Category> getAllCategories(); //Indlæser alle kategorier fra databasen
 
-    // TODO the other CRUD methods are placed here
 
 }

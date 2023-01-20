@@ -1,7 +1,4 @@
 package com.example.movieplay;
-import com.example.movieplay.Category;
-import com.example.movieplay.CategoryDao;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +7,7 @@ public class CategoryDaoImpl implements CategoryDao
 {
 
 
-    private Connection con; // CONNECTS TO DATABASE
+    private Connection con; //Skaber forbindelse til databasen
 
     public CategoryDaoImpl() {
         try {
@@ -38,11 +35,11 @@ public class CategoryDaoImpl implements CategoryDao
     //Sletter en kategori fra databasen
     public void deleteCategory(Category category) {
         try {
-            PreparedStatement pr = con.prepareStatement("DELETE FROM CatMovie WHERE categoryId = ?;");
+            PreparedStatement pr = con.prepareStatement("DELETE FROM CatMovie WHERE CategoryId = ?;");
             pr.setInt(1, (category.getCategoryId()));
             pr.executeUpdate();
 
-            PreparedStatement ps = con.prepareStatement("DELETE FROM Category WHERE categoryId = ?;");
+            PreparedStatement ps = con.prepareStatement("DELETE FROM Category WHERE CategoryId = ?;");
             ps.setInt(1, (category.getCategoryId()));
             ps.executeUpdate();
 
@@ -60,10 +57,10 @@ public class CategoryDaoImpl implements CategoryDao
 
             Category category;
             while (rs.next()) {
-                int categoryId = rs.getInt(1);
+                int CategoryId = rs.getInt(1);
                 String Name = rs.getString(2);
 
-                category = new Category(categoryId, Name);
+                category = new Category(CategoryId, Name);
                 categories.add(category);
             }
 

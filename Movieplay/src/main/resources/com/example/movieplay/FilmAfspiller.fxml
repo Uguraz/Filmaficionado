@@ -12,7 +12,7 @@
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="965.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.movieplay.MovieController">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="965.0" xmlns="http://javafx.com/javafx/18.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.movieplay.MovieController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="397.7999633789062" minWidth="10.0" prefWidth="266.9999755859375" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="486.4000030517578" minWidth="10.0" prefWidth="465.1999755859376" />
@@ -50,16 +50,13 @@
       </HBox>
       <HBox prefHeight="150.0" prefWidth="385.0" GridPane.rowIndex="2">
          <children>
-            <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0">
+            <HBox prefHeight="78.0" prefWidth="450.0">
                <children>
-                  <HBox prefHeight="77.0" prefWidth="98.0">
-                     <children>
-                        <Button mnemonicParsing="false" onAction="#tilføjFilm" text="Tilføj" />
-                        <Button mnemonicParsing="false" onAction="#fjernFilm" text="Fjern" />
-                     </children>
-                  </HBox>
+                  <Button mnemonicParsing="false" onAction="#tilføjFilm" text="Tilføj" />
+                  <Button mnemonicParsing="false" onAction="#RedRating" text="Rediger rating" />
+                  <Button mnemonicParsing="false" onAction="#fjernFilm" text="Fjern" />
                </children>
-            </VBox>
+            </HBox>
          </children>
       </HBox>
       <HBox prefHeight="110.0" prefWidth="189.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
@@ -106,7 +103,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="Playing" text="Label">
+                  <Label fx:id="Playing">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -139,6 +136,6 @@
             <ListView fx:id="fcLV" prefHeight="311.0" prefWidth="230.0" />
          </children>
       </VBox>
-      <MediaView fx:id="visFilm" fitHeight="400.0" fitWidth="470.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <MediaView fx:id="visFilm" fitHeight="405.0" fitWidth="470.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
    </children>
 </GridPane>
